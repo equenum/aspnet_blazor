@@ -1,6 +1,11 @@
 ﻿<!-- this is as example of a non-routable component - not page directive -->
-<h3>Server Name</h3>
+<p>Server @server.Name (@server.Id) is @server.GetStatusString() at @server.City | @DateTime.Now.</p>
 
 @code {
-
+    private Server server = new Server()
+    {
+        Id = 1,
+        Name = "Server1",
+        City = "New York"
+    };
 }
