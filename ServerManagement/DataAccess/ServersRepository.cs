@@ -4,7 +4,7 @@ namespace ServerManagement.DataAccess;
 
 public static class ServersRepository
 {
-    private static List<Server> servers = new List<Server>()
+    private static readonly List<Server> _servers = new List<Server>()
     {
         new Server {  Id = 1,Name = "Server1", City = "Toronto" },
         new Server {  Id = 2, Name = "Server2", City = "Toronto" },
@@ -21,23 +21,17 @@ public static class ServersRepository
         new Server {  Id = 13, Name = "Server13", City = "Halifax" }            
     };
 
-    public static void AddServer(Server server)
-    {
-        var maxId = servers.Max(s => s.Id);
-        server.Id = maxId + 1;
-        servers.Add(server);
-    }
-
-    public static List<Server> GetServers() => servers;
+    public static List<Server> GetServers() => _servers;
 
     public static List<Server> GetServersByCity(string cityName)
     {
-        return servers.Where(s => s.City.Equals(cityName, StringComparison.OrdinalIgnoreCase)).ToList();
+        return _servers.Where(s => s.City.Equals(cityName, StringComparison.OrdinalIgnoreCase))
+            .ToList();
     }
 
-    public static Server? GetServerById(int id)
+    public static Server GetServerById(int id)
     {
-        var server = servers.FirstOrDefault(s => s.Id == id);
+        var server = _servers.FirstOrDefault(s => s.Id == id);
         if (server != null)
         {
             return new Server
@@ -52,11 +46,25 @@ public static class ServersRepository
         return null;
     }
 
+    public static List<Server> SearchServers(string serverFilter)
+    {
+        return _servers.Where(s => s.Name.Contains(serverFilter, StringComparison.OrdinalIgnoreCase))
+            .ToList();
+    }
+
+    public static void AddServer(Server server)
+    {
+        var maxId = _servers.Max(s => s.Id);
+        server.Id = maxId + 1;
+
+        _servers.Add(server);
+    }
+
     public static void UpdateServer(int serverId, Server server)
     {
         if (serverId != server.Id) return;
 
-        var serverToUpdate = servers.FirstOrDefault(s => s.Id == serverId);
+        var serverToUpdate = _servers.FirstOrDefault(s => s.Id == serverId);
         if (serverToUpdate != null)
         {
             serverToUpdate.IsOnline = server.IsOnline;
@@ -67,15 +75,10 @@ public static class ServersRepository
 
     public static void DeleteServer(int serverId)
     {
-        var server = servers.FirstOrDefault(s => s.Id == serverId);
+        var server = _servers.FirstOrDefault(s => s.Id == serverId);
         if (server != null)
         {
-            servers.Remove(server);
+            _servers.Remove(server);
         }
-    }
-
-    public static List<Server> SearchServers(string serverFilter)
-    {
-        return servers.Where(s => s.Name.Contains(serverFilter, StringComparison.OrdinalIgnoreCase)).ToList();
     }
 }

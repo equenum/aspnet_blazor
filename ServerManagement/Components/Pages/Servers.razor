@@ -4,9 +4,15 @@
 <h3>Servers</h3>
 <br>
 
-<ServerComponent></ServerComponent> 
-<ServerComponent></ServerComponent> 
+<ul>
+    @foreach(var server in ServersRepository.GetServers())
+    {
+        <li style="color:@(server.IsOnline ? "green" : "red");">
+            Server @server.Name (@server.Id) is @server.GetStatusString() at @server.City | @DateTime.Now.
+        </li>
+    }
+</ul>
 
 @code {
-
+    
 }
