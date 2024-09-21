@@ -4,8 +4,8 @@ public class Server
 {
     public int Id { get; set; }
     public bool IsOnline { get; set; }
-    public string? Name { get; set; }
-    public string? City { get; set; }
+    public string Name { get; set; }
+    public string City { get; set; }
 
     public Server()
     {
