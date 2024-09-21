@@ -1,5 +1,5 @@
 ﻿<!-- this is as example of a non-routable component - not page directive -->
-<p>Server @server.Name (@server.Id) is @server.GetStatusString() at @server.City | @DateTime.Now.</p>
+<p style="color:@(server.IsOnline ? "green" : "red");">Server @server.Name (@server.Id) is @server.GetStatusString() at @server.City | @DateTime.Now.</p>
 
 @code {
     private Server server = new Server()
