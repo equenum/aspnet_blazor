@@ -2,15 +2,24 @@
 <!-- this page directive is what makes the component routable -->
 
 <h3>Servers</h3>
+
 <br>
 
-@foreach(var city in CityRepository.GetAll())
-{
-    <button>@city</button>
-}
+<div class="container-fluid text-center">
+    <div class="row w-50">
+        @foreach(var city in cities)
+        {
+            <div class="col">
+                <button type="button" class="btn btn-primary">@city</button>
+            </div>
+        }
+    </div>
+</div>
+
+<br>
 
 <ul>
-    @foreach(var server in ServersRepository.GetServers())
+    @foreach(var server in servers)
     {
         <li style="color:@(server.IsOnline ? "green" : "red");">
             Server @server.Name (@server.Id) is @server.GetStatusString() at @server.City | @DateTime.Now.
@@ -19,5 +28,7 @@
 </ul>
 
 @code {
-    
+    // state variables
+    private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
+    private List<string> cities = CityRepository.GetAll();
 }
