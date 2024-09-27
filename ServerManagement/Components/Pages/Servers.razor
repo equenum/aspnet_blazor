@@ -4,6 +4,11 @@
 <h3>Servers</h3>
 <br>
 
+@foreach(var city in CityRepository.GetAll())
+{
+    <button>@city</button>
+}
+
 <ul>
     @foreach(var server in ServersRepository.GetServers())
     {
