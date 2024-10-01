@@ -31,19 +31,7 @@ public static class ServersRepository
 
     public static Server GetServerById(int id)
     {
-        var server = _servers.FirstOrDefault(s => s.Id == id);
-        if (server != null)
-        {
-            return new Server
-            {
-                Id = server.Id,
-                Name = server.Name,
-                City = server.City,
-                IsOnline = server.IsOnline
-            };
-        }
-
-        return null;
+        return _servers.FirstOrDefault(s => s.Id == id);
     }
 
     public static List<Server> SearchServers(string serverFilter)
