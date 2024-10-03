@@ -26,8 +26,12 @@
 <ul>
     @foreach(var server in servers)
     {
-        <li style="color:@(server.IsOnline ? "green" : "red");">
-            Server @server.Name (@server.Id) is @server.GetStatusString() at @server.City | @DateTime.Now.
+        <li >
+            <span style="color:@(server.IsOnline ? "green" : "red");">
+                Server @server.Name (@server.Id) is @server.GetStatusString() at @server.City | @DateTime.Now.
+            </span>
+            &nbsp;
+            <a href="/servers/edit" class="btn btn-link">Edit</a>
         </li>
     }
 </ul>
