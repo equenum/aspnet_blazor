@@ -1,13 +1,38 @@
 ﻿@page "/servers/edit/{id:int}"
 
 <h1>Edit Server: @Id</h1>
+
 @if (_server is not null)
 {
-    <p>@_server.Name</p>
-    <p>@_server.City</p>
-    <p>@_server.IsOnline</p>
+    <EditForm Model="@_server">
+        <div class="row mb-3">
+            <div class="col-2">
+                <label class="col-form-label">Name</label>
+            </div>
+            <div class="col-6">
+                <InputText @bind-Value="_server.Name" class="form-control"></InputText>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-2">
+                <label class="col-form-label">City</label>
+            </div>
+            <div class="col-6">
+                <InputText @bind-Value="_server.City" class="form-control"></InputText>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-2">
+                <label class="col-form-label">Online</label>
+            </div>
+            <div class="col-6">
+                <InputCheckbox @bind-Value="_server.IsOnline" class="form-check-input"></InputCheckbox>
+            </div>
+        </div>
+    </EditForm>
 }
 
+<br>
 <a href="/servers" class="btn btn-primary">Go back</a>
 
 @code {
