@@ -5,7 +5,13 @@
 @if (Server is not null)
 {
     <!-- Form name is required so that Blazor could distinguish different form parameters -->
-    <EditForm Model="@Server" FormName="editServer" OnSubmit="Submit">
+    <EditForm Model="@Server" FormName="editServer" OnValidSubmit="Submit">
+
+        <!-- Enables the table to use model attributes for validation-->
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+
+        <!-- This is where the validation arrows are going to be -->
+        <ValidationSummary></ValidationSummary>
 
         <!-- This field is only used so that we have a way of passing the server id on form submit -->
         <InputNumber @bind-Value="Server.Id" hidden></InputNumber>
@@ -41,6 +47,7 @@
         <a href="/servers" class="btn btn-primary">Go back</a>
     </EditForm>
 }
+
 @code {
     // here the form name is actually optional, however it becomes
     // required if we have more then one form in a component
