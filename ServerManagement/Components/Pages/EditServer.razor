@@ -2,15 +2,20 @@
 
 <h1>Edit Server: @Id</h1>
 
-@if (_server is not null)
+@if (Server is not null)
 {
-    <EditForm Model="@_server">
+    <!-- Form name is required so that Blazor could distinguish different form parameters -->
+    <EditForm Model="@Server" FormName="editServer" OnSubmit="Submit">
+
+        <!-- This field is only used so that we have a way of passing the server id on form submit -->
+        <InputNumber @bind-Value="Server.Id" hidden></InputNumber>
+
         <div class="row mb-3">
             <div class="col-2">
                 <label class="col-form-label">Name</label>
             </div>
             <div class="col-6">
-                <InputText @bind-Value="_server.Name" class="form-control"></InputText>
+                <InputText @bind-Value="Server.Name" class="form-control"></InputText>
             </div>
         </div>
         <div class="row mb-3">
@@ -18,7 +23,7 @@
                 <label class="col-form-label">City</label>
             </div>
             <div class="col-6">
-                <InputText @bind-Value="_server.City" class="form-control"></InputText>
+                <InputText @bind-Value="Server.City" class="form-control"></InputText>
             </div>
         </div>
         <div class="row mb-3">
@@ -26,24 +31,33 @@
                 <label class="col-form-label">Online</label>
             </div>
             <div class="col-6">
-                <InputCheckbox @bind-Value="_server.IsOnline" class="form-check-input"></InputCheckbox>
+                <InputCheckbox @bind-Value="Server.IsOnline" class="form-check-input"></InputCheckbox>
             </div>
         </div>
+        <br>
+
+        <button class="btn btn-primary" type="submit">Update</button>
+        &nbsp;
+        <a href="/servers" class="btn btn-primary">Go back</a>
     </EditForm>
 }
-
-<br>
-<a href="/servers" class="btn btn-primary">Go back</a>
-
 @code {
-    private Server _server;
+    // here the form name is actually optional, however it becomes
+    // required if we have more then one form in a component
+    [SupplyParameterFromForm(FormName = "editServer")]
+    public Server Server  { get; set; }
 
     [Parameter]
     public int Id { get; set; }
 
     protected override void OnParametersSet()
     {
-        _server = ServersRepository.GetServerById(Id);
+        Server ??= ServersRepository.GetServerById(Id);
         base.OnParametersSet();
+    }
+
+    private void Submit()
+    {
+
     }
 }
