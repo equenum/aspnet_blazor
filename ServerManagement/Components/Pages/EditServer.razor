@@ -6,7 +6,7 @@
 @if (Server is not null)
 {
     <!-- Form name is required so that Blazor could distinguish different form parameters -->
-    <EditForm Model="@Server" FormName="editServer" OnValidSubmit="Submit">
+    <EditForm Model="Server" FormName="editServer" OnValidSubmit="Submit">
 
         <!-- Enables the table to use model attributes for validation-->
         <DataAnnotationsValidator></DataAnnotationsValidator>
