@@ -1,5 +1,7 @@
-﻿@page "/servers"
-<!-- this page directive is what makes the component routable -->
+﻿<!-- this page directive is what makes the component routable -->
+@page "/servers"
+
+@inject NavigationManager NavigationManager
 
 <h3>Servers</h3>
 
@@ -32,6 +34,16 @@
             </span>
             &nbsp;
             <a href="/servers/edit/@server.Id" class="btn btn-link">Edit</a>
+            &nbsp;
+
+            <!-- We have to use EditForm here to force Blazor to handle the change and update component state -->
+            <EditForm
+                Model="server"
+                FormName="@($"delete-form-{server.Id}")" 
+                OnValidSubmit="@(() => DeleteServer(server.Id))">
+
+                <button type="submit" class="btn btn-primary">Delete</button>
+            </EditForm>
         </li>
     }
 </ul>
@@ -43,4 +55,13 @@
     // state variables
     private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
     private List<string> cities = CityRepository.GetAll();
+
+    private void DeleteServer(int serverId)
+    {
+        if (serverId > -1)
+        {
+            ServersRepository.DeleteServer(serverId);
+            NavigationManager.Refresh();
+        }
+    }
 }
