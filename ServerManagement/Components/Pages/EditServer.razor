@@ -58,6 +58,9 @@
 
     private void Submit()
     {
-
+        if (Server is not null)
+        {
+            ServersRepository.UpdateServer(Server.Id, Server);
+        }
     }
 }
