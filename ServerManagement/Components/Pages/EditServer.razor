@@ -10,9 +10,6 @@
         <!-- Enables the table to use model attributes for validation-->
         <DataAnnotationsValidator></DataAnnotationsValidator>
 
-        <!-- This is where the validation arrows are going to be -->
-        <ValidationSummary></ValidationSummary>
-
         <!-- This field is only used so that we have a way of passing the server id on form submit -->
         <InputNumber @bind-Value="Server.Id" hidden></InputNumber>
 
@@ -23,6 +20,10 @@
             <div class="col-6">
                 <InputText @bind-Value="Server.Name" class="form-control"></InputText>
             </div>
+            <div class="col">
+                <!-- We can also attach validation messages to individual fields -->
+                <ValidationMessage For="() => Server.Name"></ValidationMessage>
+            </div>
         </div>
         <div class="row mb-3">
             <div class="col-2">
@@ -30,6 +31,9 @@
             </div>
             <div class="col-6">
                 <InputText @bind-Value="Server.City" class="form-control"></InputText>
+            </div>
+            <div class="col">
+                <ValidationMessage For="() => Server.City"></ValidationMessage>
             </div>
         </div>
         <div class="row mb-3">
