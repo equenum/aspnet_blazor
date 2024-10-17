@@ -1,11 +1,30 @@
 ﻿<!-- this is as example of a non-routable component - not page directive -->
-<p style="color:@(server.IsOnline ? "green" : "red");">Server @server.Name (@server.Id) is @server.GetStatusString() at @server.City | @DateTime.Now.</p>
+
+@if (server is not null)
+{
+    <div
+        data-name="@server.Name"
+        data-status="Server is @(server.IsOnline ? "online" : "offline")"
+        style="color:@(server.IsOnline ? "green" : "red");">
+        @server.Name, @server.City: @(server.IsOnline ? "online" : "offline"). 
+        &nbsp;
+        <button type="submit" class="btn btn-primary" @onclick="OnTurnOnOff">Turn on/off</button>
+    </div>
+}
 
 @code {
-    private Server server = new Server()
+    private Server server { get; set; } = new Server()
     {
         Id = 1,
         Name = "Server1",
         City = "New York"
     };
+
+    private void OnTurnOnOff()
+    {
+        if (server is not null)
+        {
+            server.IsOnline = !server.IsOnline;
+        }
+    }
 }
