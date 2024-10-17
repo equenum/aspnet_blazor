@@ -2,14 +2,14 @@ namespace ServerManagement.Services;
 
 public class CityRepository
 {
-    private static List<string> _cities = new List<string>()
-    {
+    private static readonly List<string> _cities =
+    [
         "Toronto",
         "Montreal",
         "Ottawa",
         "Calgary",
         "Halifax"
-    };
+    ];
 
     public static List<string> GetAll() => _cities;
 }

@@ -7,6 +7,7 @@ public class Server
     [Required]
     [Range(0, int.MaxValue)]
     public int Id { get; set; }
+    
     public bool IsOnline { get; set; }
 
     [Required(AllowEmptyStrings = false)]

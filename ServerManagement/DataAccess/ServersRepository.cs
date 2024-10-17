@@ -4,8 +4,8 @@ namespace ServerManagement.DataAccess;
 
 public static class ServersRepository
 {
-    private static readonly List<Server> _servers = new List<Server>()
-    {
+    private static readonly List<Server> _servers =
+    [
         new Server {  Id = 1,Name = "Server1", City = "Toronto" },
         new Server {  Id = 2, Name = "Server2", City = "Toronto" },
         new Server {  Id = 3, Name = "Server3", City = "Toronto" },
@@ -19,27 +19,20 @@ public static class ServersRepository
         new Server {  Id = 11, Name = "Server11", City = "Calgary" },
         new Server {  Id = 12, Name = "Server12", City = "Halifax" },
         new Server {  Id = 13, Name = "Server13", City = "Halifax" }            
-    };
+    ];
 
     public static List<Server> GetServers() => _servers;
 
-    public static List<Server> GetServersByCity(string cityName)
-    {
-        return _servers.Where(s => s.City.Equals(cityName, StringComparison.OrdinalIgnoreCase))
+    public static List<Server> GetServersByCity(string cityName) =>
+        _servers.Where(s => s.City.Equals(cityName, StringComparison.OrdinalIgnoreCase))
             .ToList();
-    }
 
-    public static Server GetServerById(int id)
-    {
-        return _servers.FirstOrDefault(s => s.Id == id);
-    }
+    public static Server GetServerById(int id) =>
+        _servers.FirstOrDefault(s => s.Id == id);
 
-    public static List<Server> SearchServers(string serverFilter)
-    {
-        return _servers.Where(s => s.Name.Contains(serverFilter, StringComparison.OrdinalIgnoreCase))
+    public static List<Server> SearchServers(string serverFilter) =>
+        _servers.Where(s => s.Name.Contains(serverFilter, StringComparison.OrdinalIgnoreCase))
             .ToList();
-    }
-
     public static void AddServer(Server server)
     {
         var maxId = _servers.Max(s => s.Id);
