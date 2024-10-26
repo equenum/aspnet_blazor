@@ -1,3 +1,5 @@
+using ServerManagement.Components;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
