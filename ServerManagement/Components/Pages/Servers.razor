@@ -1,5 +1,6 @@
 ﻿<!-- this page directive is what makes the component routable -->
 @page "/servers"
+@rendermode InteractiveServer
 
 @inject NavigationManager NavigationManager
 
@@ -12,10 +13,10 @@
         @foreach(var city in cities)
         {
             <div class="col">
-                <div class="card">
+                <div class="card@(city == selectedCity ? " border-primary" : "")">
                     <img src="@($"/images/{city}.png")" class="card-img-top" alt="@city">
                     <div class="card-body">
-                        <button type="button" class="btn btn-primary">@city</button>
+                        <button type="button" class="btn btn-primary" @onclick="@(() => SelectCity(city))">@city</button>
                     </div>
                 </div>
             </div>
@@ -24,6 +25,11 @@
 </div>
 
 <br>
+<!--
+    It is recommended by Microsoft to always try and define interactivity on the component level (not globally or on parent component level)
+    Also, it is best to define in not inside the component .cs, but the Razor markup in the component that uses the component we define the interactivity for (see below). 
+    This has to do with the fact that we can enable both InteractiveServer and InteractiveWebassembly and we want to avoid conflicts
+--> 
 <ServerComponent @rendermode="InteractiveServer"></ServerComponent>
 
 <ul>
@@ -38,11 +44,7 @@
             &nbsp;
 
             <!-- We have to use EditForm here to force Blazor to handle the change and update component state -->
-            <EditForm
-                Model="server"
-                FormName="@($"delete-form-{server.Id}")" 
-                OnValidSubmit="@(() => DeleteServer(server.Id))">
-
+            <EditForm Model="server" FormName="@($"delete-form-{server.Id}")" OnValidSubmit="@(() => DeleteServer(server.Id))">
                 <button type="submit" class="btn btn-primary">Delete</button>
             </EditForm>
         </li>
@@ -53,9 +55,12 @@
 </p>
 
 @code {
+    private const string DefaultCity = "Toronto";
+
     // state variables
-    private List<Server> servers = ServersRepository.GetServersByCity("Toronto");
+    private List<Server> servers = ServersRepository.GetServersByCity(DefaultCity);
     private List<string> cities = CityRepository.GetAll();
+    private string selectedCity = DefaultCity;
 
     private void DeleteServer(int serverId)
     {
@@ -64,5 +69,11 @@
             ServersRepository.DeleteServer(serverId);
             NavigationManager.Refresh();
         }
+    }
+
+    private void SelectCity(string cityName)
+    {
+        selectedCity = cityName;
+        servers = ServersRepository.GetServersByCity(cityName);
     }
 }
