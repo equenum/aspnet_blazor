@@ -62,4 +62,9 @@ public static class ServersRepository
             _servers.Remove(server);
         }
     }
+
+    public static void DeleteServer(Server server)
+    {
+        DeleteServer(server.Id);
+    }
 }

@@ -4,8 +4,9 @@
 
 @inject NavigationManager NavigationManager
 
-<h3>Servers</h3>
-
+<div>
+    <h3 style="display: inline-block">Servers</h3>
+    <a href="/servers/add" class="btn btn-primary btn-sm">Add new</a></div>
 <br>
 
 <div class="container-fluid text-center">
@@ -30,29 +31,26 @@
     Also, it is best to define in not inside the component .cs, but the Razor markup in the component that uses the component we define the interactivity for (see below). 
     This has to do with the fact that we can enable both InteractiveServer and InteractiveWebassembly and we want to avoid conflicts
 --> 
-<ServerComponent @rendermode="InteractiveServer"></ServerComponent>
+<!-- <ServerComponent rendermode="InteractiveServer"></ServerComponent> -->
 
 <ul>
     @foreach(var server in servers)
     {
-        <li >
-            <span style="color:@(server.IsOnline ? "green" : "red");">
-                Server @server.Name (@server.Id) is @server.GetStatusString() at @server.City | @DateTime.Now.
-            </span>
-            &nbsp;
-            <a href="/servers/edit/@server.Id" class="btn btn-link">Edit</a>
-            &nbsp;
-
-            <!-- We have to use EditForm here to force Blazor to handle the change and update component state -->
-            <EditForm Model="server" FormName="@($"delete-form-{server.Id}")" OnValidSubmit="@(() => DeleteServer(server.Id))">
-                <button type="submit" class="btn btn-primary">Delete</button>
-            </EditForm>
-        </li>
+        <div class="p-50">
+            <div style="padding: 10px">
+                <span style="color:@(server.IsOnline ? "green" : "red");">
+                    Server @server.Name (@server.Id) is @server.GetStatusString().
+                </span>
+                <!-- We have to use EditForm here to force Blazor to handle the change and update component state -->
+                <EditForm Model="server" FormName="@($"delete-form-{server.Id}")" OnValidSubmit="@(() => DeleteServer(server.Id))">
+                    <a href="/servers/edit/@server.Id" class="btn btn-primary btn-sm">Edit</a>
+                    <button type="submit" class="btn btn-primary btn-sm">Delete</button>
+                </EditForm>
+            </div>
+        </div>
     }
 </ul>
-<p>
-    <a href="/servers/add" class="btn btn-primary">Add server</a>
-</p>
+
 
 @code {
     private const string DefaultCity = "Toronto";
@@ -66,8 +64,10 @@
     {
         if (serverId > -1)
         {
-            ServersRepository.DeleteServer(serverId);
-            NavigationManager.Refresh();
+            var server = servers.FirstOrDefault(x => x.Id == serverId);
+
+            ServersRepository.DeleteServer(server);
+            servers.Remove(server);
         }
     }
 
